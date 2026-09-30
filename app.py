@@ -683,9 +683,10 @@ async def search_coupang(page, keyword):
 def search_aliexpress_sync(keyword):
     """
     알리익스프레스(AliExpress) 한국어 검색 결과 스크래핑:
-    - URL: https://ko.aliexpress.com/w/wholesale-{keyword}.html
-    - 봇 차단 없는 안정적인 헤더 및 requests 요청
-    - 상품명, 한화(원) 가격, 썸네일, 링크 상위 5개 추출
+    - 해외 IP(Streamlit Community Cloud) 환경에서도 지역(KR), 화폐(KRW), 한국어(ko_KR) 강제 고정
+    - 쿠키: aep_usuc_f=region=KR&site=kor&b_locale=ko_KR&c_tp=KRW; xman_us_f=x_locale=ko_KR&x_l=0; intl_locale=ko_KR;
+    - Referer: https://ko.aliexpress.com/
+    - 봇 감지 우회 헤더 및 원화/달러 자동 환산 파싱
     """
     encoded = urllib.parse.quote(keyword)
     url = f"https://ko.aliexpress.com/w/wholesale-{encoded}.html"
@@ -693,6 +694,16 @@ def search_aliexpress_sync(keyword):
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36",
         "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8",
         "Accept-Language": "ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7",
+        "Referer": "https://ko.aliexpress.com/",
+        "Cookie": "aep_usuc_f=region=KR&site=kor&b_locale=ko_KR&c_tp=KRW; xman_us_f=x_locale=ko_KR&x_l=0; intl_locale=ko_KR;",
+        "sec-ch-ua": '"Chromium";v="128", "Not;A=Brand";v="24", "Google Chrome";v="128"',
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": '"Windows"',
+        "sec-fetch-dest": "document",
+        "sec-fetch-mode": "navigate",
+        "sec-fetch-site": "same-origin",
+        "sec-fetch-user": "?1",
+        "upgrade-insecure-requests": "1"
     }
     try:
         res = requests.get(url, headers=headers, timeout=10)
@@ -729,19 +740,27 @@ def search_aliexpress_sync(keyword):
                 if src:
                     img_src = ("https:" + src) if src.startswith("//") else src
                     
-            # 2. 가격 파싱 (한화 ₩ 기준: 공백/콤마 정규화)
-            price_match = re.search(r'₩\s*(\d{1,3}(?:\s*,\s*\d{3})*)', text)
+            # 2. 가격 파싱 (한화 ₩ / KRW 기준, 해외 IP 달러 $ 폴백 지원)
+            price_match = re.search(r'(?:₩|KRW)\s*(\d{1,3}(?:\s*,\s*\d{3})*)', text)
+            usd_match = re.search(r'\$\s*(\d+(?:\.\d+)?)', text)
             price_str = ""
+            
             if price_match:
                 clean_num = re.sub(r'[\s,]', '', price_match.group(1))
                 if clean_num.isdigit():
                     price_str = f"{int(clean_num):,}원"
+            elif usd_match:
+                # 해외 서버에서 달러로 표기될 경우 한화(1,350원 기준)로 친절하게 자동 환산
+                usd_val = float(usd_match.group(1))
+                krw_val = int(usd_val * 1350)
+                price_str = f"약 {krw_val:,}원"
             
             if not price_str:
                 continue
                 
             # 3. 상품명 파싱
-            title_part = text[:price_match.start()].strip()
+            cutoff_pos = price_match.start() if price_match else (usd_match.start() if usd_match else len(text))
+            title_part = text[:cutoff_pos].strip()
             title_part = re.sub(r'-\d+%', '', title_part).strip()
             title = title_part if len(title_part) >= 4 else text[:50]
             
@@ -750,7 +769,7 @@ def search_aliexpress_sync(keyword):
                 continue
 
             # 4. 배송 정보
-            shipping = "🚚 배송 무료" if ("무료 배송" in text or "무료" in text) else "🚚 배송비 별도"
+            shipping = "🚚 배송 무료" if ("무료 배송" in text or "무료" in text or "Free Shipping" in text) else "🚚 배송비 별도"
             
             seen_ids.add(item_id)
             seen_titles.add(clean_title)
@@ -771,8 +790,74 @@ def search_aliexpress_sync(keyword):
         return []
 
 async def search_aliexpress(page, keyword):
-    """search_aliexpress를 비동기 이벤트 루프 내에서 requests_sync로 안전하게 호출"""
-    return await asyncio.to_thread(search_aliexpress_sync, keyword)
+    """search_aliexpress를 비동기 이벤트 루프 내에서 requests_sync로 호출 (실패 시 Playwright 폴백)"""
+    res = await asyncio.to_thread(search_aliexpress_sync, keyword)
+    if res:
+        return res
+    
+    # 2단계 폴백: 만약 해외 IP에서 requests가 빈 결과일 경우 Playwright로 쿠키 주입 후 직접 로드
+    try:
+        await page.context.add_cookies([
+            {"name": "aep_usuc_f", "value": "region=KR&site=kor&b_locale=ko_KR&c_tp=KRW", "domain": ".aliexpress.com", "path": "/"},
+            {"name": "intl_locale", "value": "ko_KR", "domain": ".aliexpress.com", "path": "/"}
+        ])
+        encoded = urllib.parse.quote(keyword)
+        url = f"https://ko.aliexpress.com/w/wholesale-{encoded}.html"
+        await page.goto(url, wait_until="domcontentloaded", timeout=12000)
+        await page.wait_for_timeout(2000)
+        
+        links = await page.query_selector_all('a[href*="/item/"]')
+        results = []
+        seen_ids = set()
+        for a in links:
+            href = await a.get_attribute('href')
+            text = await a.inner_text()
+            if not href or not text:
+                continue
+            m_id = re.search(r'/item/(\d+)\.html', href)
+            item_id = m_id.group(1) if m_id else href
+            if item_id in seen_ids:
+                continue
+            
+            price_m = re.search(r'(?:₩|KRW)\s*(\d{1,3}(?:\s*,\s*\d{3})*)', text)
+            usd_m = re.search(r'\$\s*(\d+(?:\.\d+)?)', text)
+            price_str = ""
+            if price_m:
+                clean_num = re.sub(r'[\s,]', '', price_m.group(1))
+                if clean_num.isdigit():
+                    price_str = f"{int(clean_num):,}원"
+            elif usd_m:
+                price_str = f"약 {int(float(usd_m.group(1)) * 1350):,}원"
+                
+            if not price_str:
+                continue
+                
+            full_link = ("https:" + href) if href.startswith("//") else href
+            img_el = await a.query_selector('img')
+            img_src = DEFAULT_IMG
+            if img_el:
+                src = await img_el.get_attribute("src")
+                if src and src.startswith("http"):
+                    img_src = src
+                    
+            lines = [l.strip() for l in text.split("\n") if l.strip()]
+            title = lines[0] if lines else keyword
+            shipping = "🚚 배송 무료" if ("무료" in text or "Free" in text) else "🚚 배송비 별도"
+            
+            seen_ids.add(item_id)
+            results.append({
+                "mall": "알리익스프레스",
+                "title": title[:50],
+                "price": price_str,
+                "shipping": shipping,
+                "link": full_link,
+                "img": img_src
+            })
+            if len(results) >= 5:
+                break
+        return results
+    except Exception:
+        return []
 
 async def crawl_all(keyword):
     async with async_playwright() as p:
