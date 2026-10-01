@@ -33,11 +33,12 @@ st.set_page_config(
     layout="wide"
 )
 
-# ----------------- 토스 / 당근마켓 감성 모던 앱 스타일 CSS -----------------
+# ----------------- 구글 스티치(Stitch) 감성 모던 UI 디자인 시스템 -----------------
 st.markdown("""<style>
 @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Noto+Sans+KR:wght@400;500;600;700;800&display=swap');
 
-/* 1. 기본 Streamlit UI 숨기기 (모바일 앱 느낌 극대화) */
+/* 1. 기본 Streamlit UI 숨기기 */
 #MainMenu { visibility: hidden !important; display: none !important; }
 header { visibility: hidden !important; display: none !important; }
 footer { visibility: hidden !important; display: none !important; }
@@ -47,9 +48,9 @@ footer { visibility: hidden !important; display: none !important; }
 [data-testid="stStatusWidget"] { display: none !important; }
 .viewerBadge_container__1QSob, .viewerBadge_link__1S137 { display: none !important; }
 
-/* 2. 글로벌 폰트 및 부드러운 앱 배경색 */
+/* 2. 글로벌 폰트 및 스티치 팔레트 */
 *, html, body, [class*="css"], [class*="st-"] {
-    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif !important;
+    font-family: 'Pretendard', 'Noto Sans KR', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif !important;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     box-sizing: border-box;
@@ -60,55 +61,77 @@ footer { visibility: hidden !important; display: none !important; }
 }
 
 .block-container {
-    padding-top: 2rem !important;
+    padding-top: 1.8rem !important;
     padding-bottom: 3.5rem !important;
-    max-width: 1400px;
+    max-width: 1440px;
 }
 
-/* 사이드바 스타일링 */
+/* 사이드바 */
 section[data-testid="stSidebar"] {
     background-color: #FFFFFF !important;
     border-right: 1px solid #E5E8EB !important;
 }
 
-/* 3. 상단 헤더 타이틀 */
-.header-box {
+/* 3. 스티치 히어로 헤더 */
+.stitch-hero {
     text-align: center;
-    margin-bottom: 2.2rem;
+    max-width: 800px;
+    margin: 0 auto 2.2rem auto;
+}
+.stitch-live-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #E8F3FF;
+    color: #3182F6;
+    font-size: 0.78rem;
+    font-weight: 700;
+    padding: 4px 12px;
+    border-radius: 9999px;
+    margin-bottom: 0.8rem;
+}
+.stitch-live-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background-color: #10B981;
+    display: inline-block;
+    box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2);
 }
 .main-logo-title {
-    font-size: 3.2rem;
-    font-weight: 900;
+    font-size: 2.6rem;
+    font-weight: 800;
     color: #191F28;
-    letter-spacing: -0.04em;
-    margin-bottom: 0.6rem;
+    letter-spacing: -0.03em;
+    margin-bottom: 0.5rem;
+    line-height: 1.25;
 }
 .main-desc {
-    font-size: 1.1rem;
+    font-size: 1.05rem;
     color: #4E5968;
     font-weight: 500;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.01em;
 }
 
-/* 4. 검색창 & 버튼 스타일 (토스 스타일) */
+/* 4. 스티치 인터랙티브 검색창 */
 div[data-testid="stTextInput"] {
     flex: 1;
     margin-bottom: 0px !important;
 }
 div[data-testid="stTextInput"] input {
-    border-radius: 12px !important;
+    border-radius: 16px !important;
     border: 1.5px solid #E5E8EB !important;
-    height: 52px !important;
-    padding: 0 20px !important;
+    height: 54px !important;
+    padding: 0 22px !important;
     font-size: 1rem !important;
     background-color: #FFFFFF !important;
     color: #191F28 !important;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03) !important;
+    box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.04), 0 1px 3px 0 rgba(0, 0, 0, 0.02) !important;
     transition: all 0.2s ease !important;
 }
 div[data-testid="stTextInput"] input:focus {
     border-color: #3182F6 !important;
-    box-shadow: 0 0 0 3px rgba(49, 130, 246, 0.12) !important;
+    box-shadow: 0 0 0 4px rgba(49, 130, 246, 0.12) !important;
 }
 div[data-testid="stTextInput"] input::placeholder {
     color: #8B95A1 !important;
@@ -116,18 +139,18 @@ div[data-testid="stTextInput"] input::placeholder {
 }
 
 div[data-testid="stForm"] div[data-testid="stButton"] button {
-    height: 52px !important;
+    height: 54px !important;
     background-color: #3182F6 !important;
     color: #FFFFFF !important;
     border: none !important;
-    border-radius: 12px !important;
+    border-radius: 16px !important;
     font-size: 1rem !important;
     font-weight: 700 !important;
-    padding: 0 26px !important;
+    padding: 0 28px !important;
     box-shadow: 0 4px 14px rgba(49, 130, 246, 0.25) !important;
     transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
     white-space: nowrap !important;
-    letter-spacing: -0.02em !important;
+    letter-spacing: -0.01em !important;
 }
 div[data-testid="stForm"] div[data-testid="stButton"] button:hover {
     background-color: #1B64DA !important;
@@ -138,139 +161,180 @@ div[data-testid="stForm"] div[data-testid="stButton"] button:active {
     transform: scale(0.98) !important;
 }
 
-/* 일반 버튼 라운딩 */
-div[data-testid="stButton"] button {
-    border-radius: 10px !important;
-    font-weight: 600 !important;
-}
-
-/* 5. 상품 카드 디자인 (둥둥 떠 있는 플로팅 카드) */
-div[data-testid="column"]:has(.card-header) > div[data-testid="stVerticalBlock"] {
-    background: #FFFFFF !important;
-    border-radius: 16px !important;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05) !important;
-    border: none !important;
-    overflow: hidden !important;
-    padding: 0 0 8px 0 !important;
-    margin-bottom: 1.5rem !important;
-    transition: transform 0.2s ease, box-shadow 0.2s ease !important;
-}
-div[data-testid="column"]:has(.card-header) > div[data-testid="stVerticalBlock"]:hover {
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08) !important;
-}
-
-div[data-testid="column"]:has(.card-header) > div[data-testid="stVerticalBlock"] > .element-container {
-    padding: 0 !important;
-    margin: 0 !important;
-}
-div[data-testid="column"]:has(.card-header) > div[data-testid="stVerticalBlock"] > .element-container > div {
-    margin: 0 !important;
-}
-
-/* 카드 상단 배너 헤더 */
-.card-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 14px 18px;
-    color: #FFFFFF;
-    font-weight: 700;
-    font-size: 1.05rem;
-    letter-spacing: -0.02em;
-}
-.header-danawa { background: linear-gradient(135deg, #1E3A8A, #2563EB); }
-.header-naver { background: linear-gradient(135deg, #03C75A, #00A84D); }
-.header-coupang { background: linear-gradient(135deg, #EA580C, #F97316); }
-.header-aliexpress { background: linear-gradient(135deg, #E11D48, #F43F5E); }
-
-.header-left {
+/* 추천 검색어 칩 */
+.stitch-chips-container {
     display: flex;
     align-items: center;
     gap: 8px;
+    margin-top: 10px;
+    overflow-x: auto;
+    padding-bottom: 4px;
 }
-.arrow-icon {
-    font-size: 1.2rem;
-    opacity: 0.8;
+.stitch-chips-label {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: #8B95A1;
+    white-space: nowrap;
+}
+.stitch-chip {
+    display: inline-block;
+    padding: 4px 12px;
+    background: #FFFFFF;
+    color: #4E5968;
+    border: 1px solid #E5E8EB;
+    border-radius: 9999px;
+    font-size: 0.78rem;
+    font-weight: 500;
+    white-space: nowrap;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.02);
 }
 
-/* 카드 내부 상품 행(Row) */
-div[data-testid="stHorizontalBlock"]:has(.prod-info-native) {
+/* 5. 스티치 쇼핑몰 컬럼 카드 디자인 */
+div[data-testid="column"]:has(.stitch-mall-header) > div[data-testid="stVerticalBlock"] {
     background: #FFFFFF !important;
-    padding: 12px 14px !important;
-    border-bottom: 1px solid #F2F4F6 !important;
+    border-radius: 24px !important;
+    box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.04), 0 1px 3px 0 rgba(0, 0, 0, 0.02) !important;
+    border: 1px solid rgba(229, 232, 235, 0.8) !important;
+    padding: 16px 14px 10px 14px !important;
+    margin-bottom: 1.5rem !important;
+    transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+}
+div[data-testid="column"]:has(.stitch-mall-header) > div[data-testid="stVerticalBlock"]:hover {
+    box-shadow: 0 12px 32px 0 rgba(0, 0, 0, 0.08), 0 2px 6px 0 rgba(0, 0, 0, 0.03) !important;
+}
+
+/* 쇼핑몰 헤더 배너 */
+.stitch-mall-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 12px;
+    margin-bottom: 12px;
+    border-bottom: 1px solid #F2F4F6;
+}
+.stitch-header-left {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+}
+.stitch-mall-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    font-weight: 900;
+    color: #FFFFFF;
+}
+.stitch-icon-danawa { background-color: #1B4DFF; }
+.stitch-icon-naver { background-color: #03C75A; }
+.stitch-icon-coupang { background-color: #E32636; }
+.stitch-icon-aliexpress { background-color: #FF4747; }
+
+.stitch-mall-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #191F28;
+    letter-spacing: -0.02em;
+}
+.stitch-mall-sub {
+    font-size: 0.72rem;
+    color: #8B95A1;
+    margin-left: 4px;
+    font-weight: 500;
+}
+.stitch-mall-badge {
+    font-size: 0.70rem;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 6px;
+    letter-spacing: -0.01em;
+}
+.stitch-badge-danawa { background-color: #EDF2FF; color: #1B4DFF; }
+.stitch-badge-naver { background-color: #E9F9F0; color: #03C75A; }
+.stitch-badge-coupang { background-color: #FDF2F3; color: #E32636; }
+.stitch-badge-aliexpress { background-color: #FFF0F0; color: #FF4747; }
+
+/* 6. 개별 상품 아이템 박스 (스티치 아티클 카드) */
+div[data-testid="stHorizontalBlock"]:has(.prod-info-native) {
+    background: rgba(249, 250, 251, 0.8) !important;
+    border-radius: 16px !important;
+    border: 1px solid rgba(229, 232, 235, 0.6) !important;
+    padding: 12px 10px !important;
+    margin-bottom: 10px !important;
     align-items: center !important;
-    gap: 10px !important;
-    margin: 0 !important;
-    transition: background-color 0.15s ease !important;
+    gap: 8px !important;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
 div[data-testid="stHorizontalBlock"]:has(.prod-info-native):hover {
-    background-color: #F8FAFC !important;
-}
-div[data-testid="stHorizontalBlock"]:has(.prod-info-native):last-child {
-    border-bottom: none !important;
+    background: #FFFFFF !important;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06) !important;
+    border-color: #E5E8EB !important;
+    transform: translateY(-1px) !important;
 }
 
 div[data-testid="stHorizontalBlock"]:has(.prod-info-native) .element-container {
     margin: 0 !important;
     padding: 0 !important;
 }
-
 div[data-testid="stHorizontalBlock"]:has(.prod-info-native) > div[data-testid="column"] {
     padding: 0 !important;
     min-width: 0 !important;
 }
 
-/* 상품 썸네일 이미지 */
+/* 상품 썸네일 */
 .native-prod-img {
-    width: 64px !important;
-    height: 64px !important;
+    width: 60px !important;
+    height: 60px !important;
     border-radius: 12px !important;
     object-fit: cover !important;
-    border: 1px solid #F2F4F6 !important;
-    background-color: #F8FAFC !important;
+    border: 1px solid #E5E8EB !important;
+    background-color: #F2F4F6 !important;
     display: block !important;
     flex-shrink: 0 !important;
     transition: transform 0.15s ease !important;
 }
 .native-prod-img:hover {
-    transform: scale(1.04) !important;
+    transform: scale(1.05) !important;
 }
 
 /* 상품 정보 */
 .prod-info-native {
-    padding: 2px 0;
+    padding: 1px 0;
     min-width: 0;
 }
 .native-prod-title {
     font-size: 0.82rem !important;
     font-weight: 600 !important;
     color: #191F28 !important;
-    line-height: 1.38 !important;
+    line-height: 1.35 !important;
     margin-bottom: 4px !important;
     display: -webkit-box !important;
     -webkit-line-clamp: 2 !important;
     -webkit-box-orient: vertical !important;
     overflow: hidden !important;
-    letter-spacing: -0.02em !important;
+    letter-spacing: -0.01em !important;
 }
 .native-prod-price {
-    font-size: 0.95rem !important;
-    font-weight: 700 !important;
+    font-size: 0.96rem !important;
+    font-weight: 800 !important;
     color: #191F28 !important;
     margin-bottom: 2px !important;
     letter-spacing: -0.02em !important;
 }
 .native-prod-shipping {
     font-size: 0.70rem !important;
-    color: #8B95A1 !important;
-    font-weight: 500 !important;
+    color: #059669 !important;
+    font-weight: 600 !important;
 }
 .prod-total-price {
     font-size: 0.70rem !important;
     font-weight: 700 !important;
     color: #3182F6 !important;
     background: #E8F3FF !important;
-    padding: 3px 8px !important;
+    padding: 2px 7px !important;
     border-radius: 6px !important;
     margin-top: 4px !important;
     display: inline-block !important;
@@ -285,10 +349,10 @@ div[data-testid="stHorizontalBlock"]:has(.prod-info-native) > div[data-testid="c
     text-decoration: none !important;
     font-size: 0.70rem !important;
     font-weight: 600 !important;
-    padding: 7px 4px !important;
-    border-radius: 10px !important;
-    border: none !important;
-    margin-bottom: 6px !important;
+    padding: 6px 3px !important;
+    border-radius: 8px !important;
+    border: 1px solid #E5E8EB !important;
+    margin-bottom: 5px !important;
     transition: all 0.15s ease !important;
 }
 .native-link-btn:hover {
@@ -298,36 +362,38 @@ div[data-testid="stHorizontalBlock"]:has(.prod-info-native) > div[data-testid="c
 
 /* 🛒 담기 버튼 */
 div[data-testid="stHorizontalBlock"]:has(.prod-info-native) div[data-testid="stButton"] button {
-    height: 32px !important;
-    font-size: 0.72rem !important;
+    height: 30px !important;
+    font-size: 0.70rem !important;
     font-weight: 600 !important;
     padding: 0 4px !important;
     box-shadow: none !important;
-    background-color: #E8F3FF !important;
-    color: #1B64DA !important;
-    border: none !important;
-    border-radius: 10px !important;
+    background-color: #FFFFFF !important;
+    color: #4E5968 !important;
+    border: 1px solid #E5E8EB !important;
+    border-radius: 8px !important;
     transition: all 0.15s ease !important;
 }
 div[data-testid="stHorizontalBlock"]:has(.prod-info-native) div[data-testid="stButton"] button:hover {
-    background-color: #D2E7FF !important;
-    color: #0E4DB7 !important;
+    background-color: #F8FAFC !important;
+    color: #191F28 !important;
+    border-color: #D1D5DB !important;
     transform: none !important;
 }
 div[data-testid="stHorizontalBlock"]:has(.prod-info-native) div[data-testid="stButton"] button:disabled {
-    background-color: #F2F4F6 !important;
-    color: #B0B8C1 !important;
-    border: none !important;
+    background-color: #E8F3FF !important;
+    color: #3182F6 !important;
+    border-color: #D2E7FF !important;
     opacity: 1 !important;
+    font-weight: 700 !important;
 }
 
-/* 비교 카드 및 토글 영역 */
+/* 7. 비교 뷰 카드 (스티치 디자인) */
 .compare-card {
     background: #FFFFFF !important;
-    border-radius: 16px !important;
-    border: none !important;
+    border-radius: 20px !important;
+    border: 1px solid #E5E8EB !important;
     padding: 18px !important;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05) !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04) !important;
 }
 .compare-mall-badge {
     font-size: 0.72rem;
@@ -337,10 +403,10 @@ div[data-testid="stHorizontalBlock"]:has(.prod-info-native) div[data-testid="stB
     display: inline-block;
     margin-bottom: 8px;
 }
-.badge-danawa { background-color: #EBF5FF; color: #1D4ED8; }
-.badge-naver { background-color: #ECFDF5; color: #047857; }
-.badge-coupang { background-color: #FFF7ED; color: #EA580C; }
-.badge-ali { background-color: #FFF1F2; color: #E11D48; }
+.badge-danawa { background-color: #EDF2FF; color: #1B4DFF; }
+.badge-naver { background-color: #E9F9F0; color: #03C75A; }
+.badge-coupang { background-color: #FDF2F3; color: #E32636; }
+.badge-ali { background-color: #FFF0F0; color: #FF4747; }
 .badge-other { background-color: #F2F4F6; color: #4E5968; }
 
 .compare-title {
@@ -1122,10 +1188,14 @@ with st.sidebar:
 
 # ----------------- UI 렌더링 -----------------
 
-# 1. 상단 타이틀 & 설명
-st.markdown("""<div class="header-box">
-<div class="main-logo-title">얼마</div>
-<div class="main-desc">다나와 · 네이버 쇼핑 · 쿠팡몰 · 알리익스프레스의 최신 가격 정보를 한번에 검색하고 비교하세요.</div>
+# 1. 스티치 히어로 타이틀 & 설명
+st.markdown("""<div class="stitch-hero">
+<div class="stitch-live-tag">
+    <span class="stitch-live-dot"></span>
+    <span>4대 쇼핑몰 연동 중 • 실시간 최저가</span>
+</div>
+<div class="main-logo-title">가장 합리적인 소비, <span style="color:#3182F6;">얼마</span>에서 한눈에</div>
+<div class="main-desc">다나와 · 네이버 쇼핑 · 쿠팡 · 알리익스프레스의 최신 가격 정보를 실시간으로 비교해 드려요.</div>
 </div>""", unsafe_allow_html=True)
 
 # 2. 검색창 & 버튼
@@ -1138,7 +1208,19 @@ with st.form(key="search_form", clear_on_submit=False):
             label_visibility="collapsed"
         )
     with search_col3:
-        search_submitted = st.form_submit_button("최저가 비교하기", use_container_width=True)
+        search_submitted = st.form_submit_button("최저가 검색", use_container_width=True)
+
+# 추천 검색어 칩 (Stitch Chips)
+st.markdown("""<div style="max-width: 900px; margin: -10px auto 14px auto;">
+<div class="stitch-chips-container">
+    <span class="stitch-chips-label">추천 검색:</span>
+    <span class="stitch-chip">에어팟 프로 2</span>
+    <span class="stitch-chip">아이폰 16 Pro</span>
+    <span class="stitch-chip">다이슨 에어랩</span>
+    <span class="stitch-chip">플레이스테이션 5 Slim</span>
+    <span class="stitch-chip">비레디 블루쿠션</span>
+</div>
+</div>""", unsafe_allow_html=True)
 
 # 3. 배송비 포함 토글 + 새로고침 버튼
 toggle_col1, toggle_col2, toggle_col3, toggle_col4 = st.columns([1.5, 6, 2, 1])
@@ -1239,20 +1321,25 @@ if sort_by_total:
     coupang_items = sorted(coupang_items, key=calc_total_price)
     ali_items     = sorted(ali_items,     key=calc_total_price)
 
-# ── 쇼핑몰 섹션 렌더러 (완전 네이티브 레이아웃) ─────────────
-def render_mall_section(col, header_class, logo_html, items, mall_name, show_total):
+# ── 쇼핑몰 섹션 렌더러 (구글 스티치 디자인 카드) ─────────────
+def render_mall_section(col, mall_name, mall_display_name, mall_en_name, mall_icon, mall_badge_text, items, show_total):
     """
-    각 쇼핑몰 컬럼을 st.columns()로 렌더링.
-    상품 이미지 · 정보 · 장바구니 버튼이 하나의 행(row)에 나란히 배치됨.
-    CSS :has() 선택자로 외곽 카드 박스와 행 스타일을 자동 적용.
+    각 쇼핑몰 컬럼을 스티치 디자인 카드 형태로 렌더링.
+    상단 플랫폼 아이콘/뱃지 및 상품별 아티클 카드가 조화롭게 배치됨.
     """
     with col:
-        # ① 컬러 헤더
+        # ① 스티치 플랫폼 헤더 (아이콘 + 영문서브 + 고유 뱃지)
         st.markdown(
-            f'<div class="card-header {header_class}">'
-            f'<div class="header-left">{logo_html}</div>'
-            f'<span class="arrow-icon">›</span>'
-            f'</div>',
+            f'''<div class="stitch-mall-header">
+                <div class="stitch-header-left">
+                    <div class="stitch-mall-icon stitch-icon-{mall_name}">{mall_icon}</div>
+                    <div>
+                        <span class="stitch-mall-title">{mall_display_name}</span>
+                        <span class="stitch-mall-sub">{mall_en_name}</span>
+                    </div>
+                </div>
+                <span class="stitch-mall-badge stitch-badge-{mall_name}">{mall_badge_text}</span>
+            </div>''',
             unsafe_allow_html=True
         )
 
@@ -1274,8 +1361,8 @@ def render_mall_section(col, header_class, logo_html, items, mall_name, show_tot
             return
 
         for idx, item in enumerate(valid_items[:5]):
-            # 4열 레이아웃에 맞춰 열 비율 조정: 이미지(1.2) | 정보(4.5) | 버튼(1.5)
-            c_img, c_info, c_btn = st.columns([1.2, 4.5, 1.5], gap="small")
+            # 열 비율 조정: 이미지(1.3) | 정보(4.4) | 버튼(1.5)
+            c_img, c_info, c_btn = st.columns([1.3, 4.4, 1.5], gap="small")
 
             # 이미지 열
             with c_img:
@@ -1360,15 +1447,10 @@ def render_mall_section(col, header_class, logo_html, items, mall_name, show_tot
 # ── 4대 쇼핑몰 컬럼 배치 (st.columns(4)) ────────────────────────────
 col_danawa, col_naver, col_coupang, col_ali = st.columns(4)
 
-danawa_logo  = '<span style="font-weight:800;color:#FF4B4B;">d</span><span style="font-weight:800;">anawa</span>'
-naver_logo   = '<span style="background:white;color:#03C75A;font-weight:900;font-size:0.8rem;padding:1px 5px;border-radius:2px;">N</span><span>네이버 쇼핑</span>'
-coupang_logo = '<span>coupang</span>'
-ali_logo     = '<span style="font-weight:800;color:#FFFFFF;">Ali</span><span style="font-weight:800;color:#FFF700;">Express</span>'
-
-render_mall_section(col_danawa,  "header-danawa",     danawa_logo,  danawa_items,  "danawa",      sort_by_total)
-render_mall_section(col_naver,   "header-naver",      naver_logo,   naver_items,   "naver",       sort_by_total)
-render_mall_section(col_coupang, "header-coupang",    coupang_logo, coupang_items, "coupang",     sort_by_total)
-render_mall_section(col_ali,     "header-aliexpress", ali_logo,     ali_items,     "aliexpress",  sort_by_total)
+render_mall_section(col_danawa,  "danawa",      "다나와",         "danawa",     "d",   "가격비교 1위", danawa_items,  sort_by_total)
+render_mall_section(col_naver,   "naver",       "네이버 쇼핑",     "Naver",      "N",   "포인트 적립", naver_items,   sort_by_total)
+render_mall_section(col_coupang, "coupang",     "쿠팡",           "Coupang",    "C",   "로켓배송",   coupang_items, sort_by_total)
+render_mall_section(col_ali,     "aliexpress",  "알리익스프레스",   "AliExpress", "Ali", "해외 직구",   ali_items,     sort_by_total)
 
 # ── 비교 뷰 ───────────────────────────────────────────────
 compare_items = st.session_state.get("compare_items", [])
@@ -1393,16 +1475,19 @@ if compare_items:
             "badge-other"
         )
         price_cls = "compare-price-best" if total == min_total else "compare-price-main"
-        crown = " 👑 최저가" if total == min_total else ""
+        crown = '<span style="background:#10B981;color:white;font-size:0.70rem;font-weight:700;padding:2px 8px;border-radius:9999px;margin-left:6px;display:inline-block;">👑 종합 최저가</span>' if total == min_total else ""
 
         with col:
             st.markdown(
                 f'<div class="compare-card">'
+                f'<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">'
                 f'<span class="compare-mall-badge {badge_cls}">{mall}</span>'
+                f'{crown}'
+                f'</div>'
                 f'<div class="compare-title">{item["title"]}</div>'
                 f'<div class="{price_cls}">{item["price"]}</div>'
                 f'<div class="compare-shipping">{item.get("shipping","")}</div>'
-                f'<div class="compare-total">합산 실구매가: {format_price(total)}{crown}</div>'
+                f'<div class="compare-total">합산 실구매가: {format_price(total)}</div>'
                 f'<a href="{item.get("link","#")}" target="_blank" class="compare-link">상품 보러가기 →</a>'
                 f'</div>',
                 unsafe_allow_html=True
