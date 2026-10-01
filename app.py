@@ -33,240 +33,130 @@ st.set_page_config(
     layout="wide"
 )
 
-# ----------------- 100% 안전하고 완벽한 CSS 스타일 -----------------
+# ----------------- 토스 / 당근마켓 감성 모던 앱 스타일 CSS -----------------
 st.markdown("""<style>
 @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
 
-html, body, [class*="css"] {
-    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+/* 1. 기본 Streamlit UI 숨기기 (모바일 앱 느낌 극대화) */
+#MainMenu { visibility: hidden !important; display: none !important; }
+header { visibility: hidden !important; display: none !important; }
+footer { visibility: hidden !important; display: none !important; }
+[data-testid="stHeader"] { display: none !important; }
+[data-testid="stDecoration"] { display: none !important; }
+[data-testid="stToolbar"] { display: none !important; }
+[data-testid="stStatusWidget"] { display: none !important; }
+.viewerBadge_container__1QSob, .viewerBadge_link__1S137 { display: none !important; }
+
+/* 2. 글로벌 폰트 및 부드러운 앱 배경색 */
+*, html, body, [class*="css"], [class*="st-"] {
+    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif !important;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    box-sizing: border-box;
 }
 
 .stApp {
-    background-color: #F8F9FA;
+    background-color: #F2F4F6 !important;
 }
 
 .block-container {
-    padding-top: 3.5rem !important;
-    padding-bottom: 3rem !important;
+    padding-top: 2rem !important;
+    padding-bottom: 3.5rem !important;
     max-width: 1400px;
 }
 
-/* 상단 헤더 */
+/* 사이드바 스타일링 */
+section[data-testid="stSidebar"] {
+    background-color: #FFFFFF !important;
+    border-right: 1px solid #E5E8EB !important;
+}
+
+/* 3. 상단 헤더 타이틀 */
 .header-box {
     text-align: center;
-    margin-bottom: 2rem;
+    margin-bottom: 2.2rem;
 }
 .main-logo-title {
     font-size: 3.2rem;
-    font-weight: 800;
-    color: #111827;
+    font-weight: 900;
+    color: #191F28;
     letter-spacing: -0.04em;
-    margin-bottom: 0.8rem;
+    margin-bottom: 0.6rem;
 }
 .main-desc {
-    font-size: 1.15rem;
-    color: #374151;
+    font-size: 1.1rem;
+    color: #4E5968;
     font-weight: 500;
     letter-spacing: -0.02em;
 }
 
-/* 검색창 & 버튼 스타일 */
+/* 4. 검색창 & 버튼 스타일 (토스 스타일) */
 div[data-testid="stTextInput"] {
     flex: 1;
     margin-bottom: 0px !important;
 }
 div[data-testid="stTextInput"] input {
-    border-radius: 8px !important;
-    border: 1px solid #D1D5DB !important;
-    height: 48px !important;
-    padding: 0 16px !important;
-    font-size: 0.95rem !important;
+    border-radius: 12px !important;
+    border: 1.5px solid #E5E8EB !important;
+    height: 52px !important;
+    padding: 0 20px !important;
+    font-size: 1rem !important;
     background-color: #FFFFFF !important;
-    color: #111827 !important;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03) !important;
+    color: #191F28 !important;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03) !important;
+    transition: all 0.2s ease !important;
+}
+div[data-testid="stTextInput"] input:focus {
+    border-color: #3182F6 !important;
+    box-shadow: 0 0 0 3px rgba(49, 130, 246, 0.12) !important;
 }
 div[data-testid="stTextInput"] input::placeholder {
-    color: #9CA3AF !important;
+    color: #8B95A1 !important;
     font-weight: 400;
 }
 
-div[data-testid="stButton"] button {
-    height: 48px !important;
-    background-color: #1F2937 !important;
+div[data-testid="stForm"] div[data-testid="stButton"] button {
+    height: 52px !important;
+    background-color: #3182F6 !important;
     color: #FFFFFF !important;
     border: none !important;
-    border-radius: 8px !important;
-    font-size: 0.95rem !important;
-    font-weight: 600 !important;
-    padding: 0 24px !important;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
-    transition: all 0.2s ease !important;
+    border-radius: 12px !important;
+    font-size: 1rem !important;
+    font-weight: 700 !important;
+    padding: 0 26px !important;
+    box-shadow: 0 4px 14px rgba(49, 130, 246, 0.25) !important;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
     white-space: nowrap !important;
+    letter-spacing: -0.02em !important;
 }
-div[data-testid="stButton"] button:hover {
-    background-color: #111827 !important;
+div[data-testid="stForm"] div[data-testid="stButton"] button:hover {
+    background-color: #1B64DA !important;
+    box-shadow: 0 6px 20px rgba(49, 130, 246, 0.35) !important;
     transform: translateY(-1px) !important;
 }
-
-/* 4대 쇼핑몰 카드 컨테이너 */
-.card-container {
-    background: #FFFFFF;
-    border-radius: 12px;
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
-    border: 1px solid #E5E7EB;
-    overflow: hidden;
-    margin-bottom: 1.5rem;
+div[data-testid="stForm"] div[data-testid="stButton"] button:active {
+    transform: scale(0.98) !important;
 }
 
-/* 카드 상단 배너 헤더 */
-.card-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 12px 18px;
-    color: #FFFFFF;
-    font-weight: 700;
-    font-size: 1.15rem;
-}
-.header-danawa { background-color: #2D4C7F; }
-.header-naver { background-color: #03C75A; }
-.header-coupang { background-color: #E26829; }
-.header-aliexpress { background: linear-gradient(135deg, #FF4747, #E62E04); }
-
-.header-left {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-.arrow-icon {
-    font-size: 1.2rem;
-    opacity: 0.85;
+/* 일반 버튼 라운딩 */
+div[data-testid="stButton"] button {
+    border-radius: 10px !important;
+    font-weight: 600 !important;
 }
 
-/* 카드 내부 상품 행(Row) */
-.product-row {
-    display: flex;
-    align-items: center;
-    padding: 14px 16px;
-    border-bottom: 1px solid #F3F4F6;
-    gap: 12px;
-    background-color: #FFFFFF;
-    transition: background-color 0.15s ease;
-}
-.product-row:last-child {
-    border-bottom: none;
-}
-.product-row:hover {
-    background-color: #FAFAFA;
-}
-
-/* 상품 썸네일 이미지 */
-.prod-img {
-    width: 64px;
-    height: 64px;
-    border-radius: 8px;
-    object-fit: cover;
-    background-color: #F3F4F6;
-    border: 1px solid #E5E7EB;
-    flex-shrink: 0;
-}
-
-/* 상품 상세 정보 */
-.prod-info {
-    flex: 1;
-    min-width: 0;
-}
-.prod-title {
-    font-size: 0.84rem;
-    font-weight: 600;
-    color: #1F2937;
-    line-height: 1.35;
-    margin-bottom: 5px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-.prod-price-box {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    margin-bottom: 3px;
-}
-.prod-price {
-    font-size: 0.98rem;
-    font-weight: 700;
-    color: #111827;
-}
-.prod-badge {
-    font-size: 0.75rem;
-    color: #9CA3AF;
-}
-.prod-shipping {
-    font-size: 0.72rem;
-    color: #6B7280;
-    display: flex;
-    align-items: center;
-    gap: 4px;
-}
-
-/* 상품 보러가기 버튼 */
-.btn-view {
-    background-color: #F3F4F6;
-    color: #374151 !important;
-    text-decoration: none !important;
-    font-size: 0.78rem;
-    font-weight: 600;
-    padding: 7px 12px;
-    border-radius: 6px;
-    border: 1px solid #E5E7EB;
-    white-space: nowrap;
-    transition: all 0.15s ease;
-    flex-shrink: 0;
-}
-.btn-view:hover {
-    background-color: #E5E7EB;
-    color: #111827 !important;
-}
-
-.empty-msg {
-    padding: 30px 18px;
-    text-align: center;
-    color: #9CA3AF;
-    font-size: 0.85rem;
-}
-
-/* 하단 푸터 */
-.footer-divider {
-    margin-top: 4rem;
-    border-top: 1px solid #E5E7EB;
-    padding-top: 1.5rem;
-}
-.footer-text {
-    font-size: 0.85rem;
-    color: #9CA3AF;
-}
-
-/* 합산 실구매가 뱃지 */
-.prod-total-price {
-    font-size: 0.75rem;
-    font-weight: 700;
-    color: #FFFFFF;
-    background: linear-gradient(135deg, #E53E3E, #C53030);
-    padding: 2px 6px;
-    border-radius: 4px;
-    margin-top: 4px;
-    display: inline-block;
-}
-
-/* ── 카드 외곽: .card-header를 포함하는 column의 stVerticalBlock ── */
+/* 5. 상품 카드 디자인 (둥둥 떠 있는 플로팅 카드) */
 div[data-testid="column"]:has(.card-header) > div[data-testid="stVerticalBlock"] {
-    background: white !important;
-    border-radius: 12px !important;
-    box-shadow: 0 4px 14px rgba(0,0,0,0.06) !important;
-    border: 1px solid #E5E7EB !important;
+    background: #FFFFFF !important;
+    border-radius: 16px !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05) !important;
+    border: none !important;
     overflow: hidden !important;
-    padding: 0 !important;
+    padding: 0 0 8px 0 !important;
     margin-bottom: 1.5rem !important;
+    transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+}
+div[data-testid="column"]:has(.card-header) > div[data-testid="stVerticalBlock"]:hover {
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08) !important;
 }
 
 div[data-testid="column"]:has(.card-header) > div[data-testid="stVerticalBlock"] > .element-container {
@@ -277,14 +167,47 @@ div[data-testid="column"]:has(.card-header) > div[data-testid="stVerticalBlock"]
     margin: 0 !important;
 }
 
-/* ── 상품 행: .prod-info-native를 포함하는 stHorizontalBlock ── */
+/* 카드 상단 배너 헤더 */
+.card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 18px;
+    color: #FFFFFF;
+    font-weight: 700;
+    font-size: 1.05rem;
+    letter-spacing: -0.02em;
+}
+.header-danawa { background: linear-gradient(135deg, #1E3A8A, #2563EB); }
+.header-naver { background: linear-gradient(135deg, #03C75A, #00A84D); }
+.header-coupang { background: linear-gradient(135deg, #EA580C, #F97316); }
+.header-aliexpress { background: linear-gradient(135deg, #E11D48, #F43F5E); }
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.arrow-icon {
+    font-size: 1.2rem;
+    opacity: 0.8;
+}
+
+/* 카드 내부 상품 행(Row) */
 div[data-testid="stHorizontalBlock"]:has(.prod-info-native) {
-    background: white !important;
-    padding: 8px 10px 8px 8px !important;
-    border-bottom: 1px solid #F3F4F6 !important;
-    align-items: flex-start !important;
-    gap: 6px !important;
+    background: #FFFFFF !important;
+    padding: 12px 14px !important;
+    border-bottom: 1px solid #F2F4F6 !important;
+    align-items: center !important;
+    gap: 10px !important;
     margin: 0 !important;
+    transition: background-color 0.15s ease !important;
+}
+div[data-testid="stHorizontalBlock"]:has(.prod-info-native):hover {
+    background-color: #F8FAFC !important;
+}
+div[data-testid="stHorizontalBlock"]:has(.prod-info-native):last-child {
+    border-bottom: none !important;
 }
 
 div[data-testid="stHorizontalBlock"]:has(.prod-info-native) .element-container {
@@ -297,153 +220,189 @@ div[data-testid="stHorizontalBlock"]:has(.prod-info-native) > div[data-testid="c
     min-width: 0 !important;
 }
 
-/* 상품 썸네일 */
+/* 상품 썸네일 이미지 */
 .native-prod-img {
-    width: 58px;
-    height: 58px;
-    border-radius: 8px;
-    object-fit: cover;
-    border: 1px solid #E5E7EB;
-    display: block;
-    margin-top: 4px;
-    flex-shrink: 0;
+    width: 64px !important;
+    height: 64px !important;
+    border-radius: 12px !important;
+    object-fit: cover !important;
+    border: 1px solid #F2F4F6 !important;
+    background-color: #F8FAFC !important;
+    display: block !important;
+    flex-shrink: 0 !important;
+    transition: transform 0.15s ease !important;
+}
+.native-prod-img:hover {
+    transform: scale(1.04) !important;
 }
 
-/* 상품 정보 래퍼 */
-.prod-info-native { padding: 3px 0; min-width: 0; }
-
-/* 상품명 (2줄 말줄임) */
+/* 상품 정보 */
+.prod-info-native {
+    padding: 2px 0;
+    min-width: 0;
+}
 .native-prod-title {
-    font-size: 0.80rem;
-    font-weight: 600;
-    color: #1F2937;
-    line-height: 1.35;
-    margin-bottom: 3px;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
+    font-size: 0.82rem !important;
+    font-weight: 600 !important;
+    color: #191F28 !important;
+    line-height: 1.38 !important;
+    margin-bottom: 4px !important;
+    display: -webkit-box !important;
+    -webkit-line-clamp: 2 !important;
+    -webkit-box-orient: vertical !important;
+    overflow: hidden !important;
+    letter-spacing: -0.02em !important;
 }
-
-/* 가격 */
 .native-prod-price {
-    font-size: 0.90rem;
-    font-weight: 700;
-    color: #111827;
-    margin-bottom: 2px;
+    font-size: 0.95rem !important;
+    font-weight: 700 !important;
+    color: #191F28 !important;
+    margin-bottom: 2px !important;
+    letter-spacing: -0.02em !important;
+}
+.native-prod-shipping {
+    font-size: 0.70rem !important;
+    color: #8B95A1 !important;
+    font-weight: 500 !important;
+}
+.prod-total-price {
+    font-size: 0.70rem !important;
+    font-weight: 700 !important;
+    color: #3182F6 !important;
+    background: #E8F3FF !important;
+    padding: 3px 8px !important;
+    border-radius: 6px !important;
+    margin-top: 4px !important;
+    display: inline-block !important;
 }
 
-/* 배송비 */
-.native-prod-shipping { font-size: 0.68rem; color: #6B7280; }
-
-/* 버튼 컬럼 내 보러가기 링크 */
+/* 보러가기 링크 버튼 */
 .native-link-btn {
     display: block !important;
     text-align: center !important;
-    background-color: #F3F4F6 !important;
-    color: #374151 !important;
+    background-color: #F2F4F6 !important;
+    color: #4E5968 !important;
     text-decoration: none !important;
-    font-size: 0.65rem !important;
+    font-size: 0.70rem !important;
     font-weight: 600 !important;
-    padding: 5px 3px !important;
-    border-radius: 6px !important;
-    border: 1px solid #E5E7EB !important;
-    margin-bottom: 4px !important;
-    transition: background-color 0.15s !important;
+    padding: 7px 4px !important;
+    border-radius: 10px !important;
+    border: none !important;
+    margin-bottom: 6px !important;
+    transition: all 0.15s ease !important;
 }
-.native-link-btn:hover { background-color: #E5E7EB !important; }
+.native-link-btn:hover {
+    background-color: #E5E8EB !important;
+    color: #191F28 !important;
+}
 
 /* 🛒 담기 버튼 */
 div[data-testid="stHorizontalBlock"]:has(.prod-info-native) div[data-testid="stButton"] button {
-    height: 28px !important;
-    font-size: 0.68rem !important;
+    height: 32px !important;
+    font-size: 0.72rem !important;
     font-weight: 600 !important;
-    padding: 0 2px !important;
+    padding: 0 4px !important;
     box-shadow: none !important;
-    background-color: #ECFDF5 !important;
-    color: #065F46 !important;
-    border: 1px solid #A7F3D0 !important;
-    transform: none !important;
+    background-color: #E8F3FF !important;
+    color: #1B64DA !important;
+    border: none !important;
+    border-radius: 10px !important;
+    transition: all 0.15s ease !important;
 }
 div[data-testid="stHorizontalBlock"]:has(.prod-info-native) div[data-testid="stButton"] button:hover {
-    background-color: #D1FAE5 !important;
+    background-color: #D2E7FF !important;
+    color: #0E4DB7 !important;
     transform: none !important;
 }
 div[data-testid="stHorizontalBlock"]:has(.prod-info-native) div[data-testid="stButton"] button:disabled {
-    background-color: #F9FAFB !important;
-    color: #9CA3AF !important;
-    border-color: #E5E7EB !important;
+    background-color: #F2F4F6 !important;
+    color: #B0B8C1 !important;
+    border: none !important;
     opacity: 1 !important;
 }
 
-/* 비교 카드 스타일 */
+/* 비교 카드 및 토글 영역 */
 .compare-card {
-    background: #FFFFFF;
-    border-radius: 10px;
-    border: 1px solid #E5E7EB;
-    padding: 14px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    background: #FFFFFF !important;
+    border-radius: 16px !important;
+    border: none !important;
+    padding: 18px !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05) !important;
 }
 .compare-mall-badge {
     font-size: 0.72rem;
     font-weight: 700;
-    padding: 2px 6px;
-    border-radius: 4px;
+    padding: 3px 8px;
+    border-radius: 6px;
     display: inline-block;
-    margin-bottom: 6px;
+    margin-bottom: 8px;
 }
 .badge-danawa { background-color: #EBF5FF; color: #1D4ED8; }
 .badge-naver { background-color: #ECFDF5; color: #047857; }
-.badge-coupang { background-color: #FEF2F2; color: #B91C1C; }
-.badge-ali { background-color: #FFF1F0; color: #E62E04; }
-.badge-other { background-color: #F3F4F6; color: #374151; }
+.badge-coupang { background-color: #FFF7ED; color: #EA580C; }
+.badge-ali { background-color: #FFF1F2; color: #E11D48; }
+.badge-other { background-color: #F2F4F6; color: #4E5968; }
 
 .compare-title {
-    font-size: 0.85rem;
+    font-size: 0.88rem;
     font-weight: 600;
-    color: #1F2937;
-    margin-bottom: 6px;
-    line-height: 1.35;
-    height: 2.7em;
+    color: #191F28;
+    margin-bottom: 8px;
+    line-height: 1.4;
+    height: 2.8em;
     overflow: hidden;
 }
 .compare-price-best {
-    font-size: 1.1rem;
+    font-size: 1.15rem;
     font-weight: 800;
-    color: #DC2626;
+    color: #E11D48;
 }
 .compare-price-main {
-    font-size: 1.05rem;
+    font-size: 1.08rem;
     font-weight: 700;
-    color: #111827;
+    color: #191F28;
 }
 .compare-shipping {
     font-size: 0.72rem;
-    color: #6B7280;
-    margin-bottom: 6px;
+    color: #8B95A1;
+    margin-bottom: 8px;
 }
 .compare-total {
     font-size: 0.82rem;
     font-weight: 700;
-    color: #1E293B;
-    background: #F1F5F9;
-    padding: 4px 8px;
-    border-radius: 6px;
-    margin-bottom: 10px;
+    color: #191F28;
+    background: #F2F4F6;
+    padding: 6px 10px;
+    border-radius: 8px;
+    margin-bottom: 12px;
 }
 .compare-link {
     display: block;
     text-align: center;
-    background: #2563EB;
+    background: #3182F6;
     color: white !important;
     text-decoration: none !important;
-    padding: 6px 0;
-    border-radius: 6px;
-    font-size: 0.78rem;
+    padding: 8px 0;
+    border-radius: 10px;
+    font-size: 0.82rem;
     font-weight: 600;
+    transition: background-color 0.15s ease;
 }
 .compare-link:hover {
-    background: #1D4ED8;
+    background: #1B64DA;
+}
+
+/* 하단 푸터 */
+.footer-divider {
+    margin-top: 4rem;
+    border-top: 1px solid #E5E8EB;
+    padding-top: 1.5rem;
+    text-align: center;
+}
+.footer-text {
+    font-size: 0.85rem;
+    color: #8B95A1;
+    font-weight: 500;
 }
 </style>""", unsafe_allow_html=True)
 
@@ -463,14 +422,98 @@ COMMON_HEADERS = {
 
 DEFAULT_IMG = "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=120&auto=format&fit=crop&q=80"
 
+# ----------------- 광고 필터링 및 키워드 검증(검문소) 유틸 -----------------
+
+def extract_keyword_tokens(keyword: str) -> list:
+    """검색어에서 의미 있는 핵심 토큰 목록을 추출 (띄어쓰기 기준 단어 및 복합명사 서브토큰)"""
+    if not keyword:
+        return []
+    kw = keyword.strip().lower()
+    words = [w for w in re.split(r'[\s,+/_\-]+', kw) if w]
+    
+    tokens = set()
+    for w in words:
+        if len(w) >= 2:
+            tokens.add(w)
+        # 4글자 이상 한글 복합어일 경우 2~3글자 단위 서브토큰도 추가 (예: '무릎보호대' -> '무릎', '보호대')
+        if len(w) >= 4 and re.match(r'^[가-힣]+$', w):
+            tokens.add(w[:2])
+            tokens.add(w[2:])
+            if len(w) >= 5:
+                tokens.add(w[-2:])
+                tokens.add(w[:3])
+                tokens.add(w[-3:])
+
+    if not tokens:
+        tokens = set(words) if words else {kw}
+    return list(tokens)
+
+def is_ad_text_or_class(text: str = "", class_attr: str = "") -> bool:
+    """광고, 스폰서, AD 여부 판별 (단어 경계 및 독립 라벨 검사)"""
+    combined = f"{text} {class_attr}".lower()
+    
+    # 영문 AD / Sponsored / Advertisement 단어 경계 매칭
+    if re.search(r'\b(ad|sponsored|advertisement)\b', combined, re.I):
+        return True
+        
+    # 한글 광고 / 스폰서 키워드 매칭
+    if any(k in combined for k in ["스폰서", "광고상품", "[광고]", "(광고)", "추천상품", "파워상품"]):
+        return True
+        
+    # 개별 라인에 독립된 '광고', 'AD'가 존재하는지 확인
+    for line in text.split("\n"):
+        line_s = line.strip()
+        if line_s in ["광고", "AD", "Ad", "sponsored", "Sponsored"]:
+            return True
+            
+    return False
+
+def is_relevant_product(title: str, keyword: str) -> bool:
+    """
+    상품명(title)이 사용자가 입력한 검색어의 핵심 단어를 포함하는지 검증 (검문소)
+    - 검색어 전체(공백 제거)가 상품명에 포함되어 있거나
+    - 검색어의 핵심 토큰 중 최소 1개 이상이 상품명에 포함되어야 통과
+    """
+    if not title or not keyword:
+        return False
+        
+    title_clean = title.lower()
+    title_nospace = re.sub(r'[\s\-_]', '', title_clean)
+    kw_clean = keyword.lower().strip()
+    kw_nospace = re.sub(r'[\s\-_]', '', kw_clean)
+    
+    # 1. 공백 제거 검색어 자체가 상품명에 그대로 포함된 경우 (예: '무릎보호대' in '네오프렌무릎보호대')
+    if len(kw_nospace) >= 2 and (kw_nospace in title_nospace or kw_clean in title_clean):
+        return True
+        
+    # 2. 핵심 토큰 중 최소 1개 이상 포함 여부 검사
+    tokens = extract_keyword_tokens(keyword)
+    for token in tokens:
+        if token in title_clean or token in title_nospace:
+            return True
+            
+    return False
+
 async def search_danawa(page, keyword):
-    """다나와 상위 5개 상품 수집 (기존 로직 100% 유지)"""
+    """다나와 상위 상품 수집: 광고/스폰서 제외 및 키워드 검증 후 상위 5개 선별"""
     url = f"https://search.danawa.com/dsearch.php?query={urllib.parse.quote(keyword)}"
     try:
         await page.goto(url, wait_until="domcontentloaded", timeout=12000)
-        items = await page.query_selector_all('li.prod_item:not(.product-pot)')
+        # 광고 및 추천 배너 셀렉터 1차 제외
+        items = await page.query_selector_all('li.prod_item:not(.product-pot):not(.ad_item)')
         results = []
-        for item in items[:5]:
+        
+        # 10~25개의 충분한 후보군을 탐색하여 광고 스킵 후 정상 상품 5개 확보
+        for item in items[:25]:
+            cls = (await item.get_attribute("class")) or ""
+            if "ad_item" in cls or "product-pot" in cls:
+                continue
+                
+            # 광고 아이콘/뱃지 검사
+            ad_el = await item.query_selector('.ico_ad, .txt_ad, .badge_ad, [class*="ad_layer"], [class*="product-pot"]')
+            if ad_el:
+                continue
+
             title_el = await item.query_selector('.prod_name a')
             price_el = await item.query_selector('.price_sect strong')
             img_el = await item.query_selector('.thumb_image img')
@@ -479,6 +522,14 @@ async def search_danawa(page, keyword):
                 title = await title_el.inner_text()
                 price = await price_el.inner_text()
                 link = await title_el.get_attribute("href")
+                
+                # 광고 텍스트 체크
+                if is_ad_text_or_class(title, cls):
+                    continue
+                    
+                # 핵심 키워드 일치 검증(검문소)
+                if not is_relevant_product(title, keyword):
+                    continue
                 
                 img_src = DEFAULT_IMG
                 if img_el:
@@ -494,6 +545,10 @@ async def search_danawa(page, keyword):
                     "link": link,
                     "img": img_src
                 })
+                
+                if len(results) >= 5:
+                    break
+                    
         return results
     except Exception:
         return []
@@ -503,7 +558,7 @@ def search_naver_sync(keyword):
     모바일 네이버 쇼핑 검색 (requests + BeautifulSoup 방식):
     - 봇 탐지 없는 모바일 네이버 쇼핑 URL 사용
     - 모바일 스마트폰 User-Agent 헤더 적용
-    - 상위 5개 본품 상품명, 가격, 썸네일, 링크 정확 파싱 (기존 로직 100% 유지)
+    - 광고(AD/스폰서) 상품 제외 및 키워드 검증(검문소) 통과한 정상 상품 상위 5개 선별
     """
     url = f"https://m.search.naver.com/search.naver?where=m_shopping&query={urllib.parse.quote(keyword)}"
     mobile_headers = {
@@ -530,6 +585,10 @@ def search_naver_sync(keyword):
             if not href:
                 continue
 
+            # 1. 광고 URL 파라미터 제외
+            if any(ad_param in href for ad_param in ["ad_mid", "adcr", "nad-", "/ad/"]):
+                continue
+
             mid_match = re.search(r'nv_mid=(\d+)', href)
             mid = mid_match.group(1) if mid_match else href
             if mid in seen_mids:
@@ -539,7 +598,16 @@ def search_naver_sync(keyword):
             if not parent:
                 continue
 
+            # 2. 광고 뱃지 / 스폰서 태그 / 클래스 제외
+            parent_classes = " ".join(parent.get("class", []))
             p_text = parent.get_text(separator=" | ", strip=True)
+            if is_ad_text_or_class(p_text, parent_classes):
+                continue
+                
+            ad_badge = parent.find(lambda el: el.name in ['span', 'em', 'strong', 'i', 'div'] and el.get_text(strip=True) in ['광고', 'AD'])
+            if ad_badge:
+                continue
+
             lines = [l.strip() for l in p_text.split("|") if l.strip()]
 
             price = ""
@@ -580,6 +648,12 @@ def search_naver_sync(keyword):
             if not title or len(title) < 4:
                 continue
 
+            # 3. 광고 텍스트 및 키워드 일치 검증(검문소)
+            if is_ad_text_or_class(title, ""):
+                continue
+            if not is_relevant_product(title, keyword):
+                continue
+
             clean_title = re.sub(r'\s+', '', title)
             if clean_title in seen_titles:
                 continue
@@ -605,6 +679,7 @@ def search_naver_sync(keyword):
                 "img": img_src
             })
 
+            # 충분한 후보군 중 정상 상품 5개 채워지면 완료
             if len(results) >= 5:
                 break
 
@@ -617,7 +692,7 @@ async def search_naver(page, keyword):
     return await asyncio.to_thread(search_naver_sync, keyword)
 
 async def search_coupang(page, keyword):
-    """폴센트(Fallcent) 연동 쿠팡 최저가 상위 5개 수집 (기존 로직 100% 유지)"""
+    """폴센트(Fallcent) 연동 쿠팡 최저가 수집: 광고/스폰서 제외 및 키워드 검증 후 상위 5개 선별"""
     encoded = urllib.parse.quote(keyword)
     url = f"https://fallcent.com/product/search/?keyword={encoded}"
     
@@ -639,6 +714,16 @@ async def search_coupang(page, keyword):
         for a in links:
             href = await a.get_attribute('href')
             text = await a.inner_text()
+            cls = (await a.get_attribute("class")) or ""
+            
+            # 1. 광고 및 스폰서 아이템 제외
+            if is_ad_text_or_class(text, cls):
+                continue
+                
+            ad_el = await a.query_selector('[class*="ad"], [class*="sponsor"], [class*="badge_ad"]')
+            if ad_el:
+                continue
+
             lines = [l.strip() for l in text.split("\n") if l.strip()]
             
             if not lines:
@@ -654,6 +739,12 @@ async def search_coupang(page, keyword):
             title_candidates = [l for l in lines if not any(k in l for k in ignore_keywords)]
             title = title_candidates[0] if title_candidates else lines[0]
             
+            # 2. 광고 텍스트 및 키워드 일치 검증(검문소)
+            if is_ad_text_or_class(title, ""):
+                continue
+            if not is_relevant_product(title, keyword):
+                continue
+
             img_el = await a.query_selector('img')
             img_src = DEFAULT_IMG
             if img_el:
@@ -673,6 +764,7 @@ async def search_coupang(page, keyword):
                     "img": img_src
                 })
                 
+            # 충분한 후보군 순회 후 정상 상품 5개 채워지면 완료
             if len(results) >= 5:
                 break
                 
@@ -729,8 +821,13 @@ def search_aliexpress_sync(keyword):
                 
             full_link = ("https:" + href) if href.startswith("//") else href
             text = a.get_text(separator=" ", strip=True)
+            parent_cls = " ".join(a.parent.get("class", [])) if a.parent else ""
             
-            # 1. 썸네일 이미지 추출
+            # 1. 광고 및 스폰서 추천 상품 제외
+            if is_ad_text_or_class(text, parent_cls):
+                continue
+            
+            # 2. 썸네일 이미지 추출
             img_tag = a.find("img")
             if not img_tag and a.parent:
                 img_tag = a.parent.find("img")
@@ -740,7 +837,7 @@ def search_aliexpress_sync(keyword):
                 if src:
                     img_src = ("https:" + src) if src.startswith("//") else src
                     
-            # 2. 가격 파싱 (한화 ₩ / KRW 기준, 해외 IP 달러 $ 폴백 지원)
+            # 3. 가격 파싱 (한화 ₩ / KRW 기준, 해외 IP 달러 $ 폴백 지원)
             price_match = re.search(r'(?:₩|KRW)\s*(\d{1,3}(?:\s*,\s*\d{3})*)', text)
             usd_match = re.search(r'\$\s*(\d+(?:\.\d+)?)', text)
             price_str = ""
@@ -758,17 +855,23 @@ def search_aliexpress_sync(keyword):
             if not price_str:
                 continue
                 
-            # 3. 상품명 파싱
+            # 4. 상품명 파싱
             cutoff_pos = price_match.start() if price_match else (usd_match.start() if usd_match else len(text))
             title_part = text[:cutoff_pos].strip()
             title_part = re.sub(r'-\d+%', '', title_part).strip()
             title = title_part if len(title_part) >= 4 else text[:50]
             
+            # 5. 광고 텍스트 및 키워드 일치 검증(검문소) - 무관한 추천 상품(면도기 등) 완벽 배제
+            if is_ad_text_or_class(title, ""):
+                continue
+            if not is_relevant_product(title, keyword):
+                continue
+
             clean_title = re.sub(r'\s+', '', title)
             if clean_title in seen_titles:
                 continue
 
-            # 4. 배송 정보
+            # 6. 배송 정보
             shipping = "🚚 배송 무료" if ("무료 배송" in text or "무료" in text or "Free Shipping" in text) else "🚚 배송비 별도"
             
             seen_ids.add(item_id)
@@ -782,6 +885,8 @@ def search_aliexpress_sync(keyword):
                 "link": full_link.strip(),
                 "img": img_src
             })
+            
+            # 충분한 후보군 중 정상 상품 5개 채워지면 완료
             if len(results) >= 5:
                 break
                 
@@ -812,8 +917,14 @@ async def search_aliexpress(page, keyword):
         for a in links:
             href = await a.get_attribute('href')
             text = await a.inner_text()
+            cls = (await a.get_attribute("class")) or ""
             if not href or not text:
                 continue
+                
+            # 광고 및 스폰서 아이템 제외
+            if is_ad_text_or_class(text, cls):
+                continue
+                
             m_id = re.search(r'/item/(\d+)\.html', href)
             item_id = m_id.group(1) if m_id else href
             if item_id in seen_ids:
@@ -842,6 +953,13 @@ async def search_aliexpress(page, keyword):
                     
             lines = [l.strip() for l in text.split("\n") if l.strip()]
             title = lines[0] if lines else keyword
+            
+            # 광고 및 키워드 일치 검증(검문소)
+            if is_ad_text_or_class(title, ""):
+                continue
+            if not is_relevant_product(title, keyword):
+                continue
+                
             shipping = "🚚 배송 무료" if ("무료" in text or "Free" in text) else "🚚 배송비 별도"
             
             seen_ids.add(item_id)
@@ -885,11 +1003,13 @@ async def crawl_all(keyword):
         ali_res = await search_aliexpress(page, keyword)
         
         await browser.close()
+        
+        # 2차 최종 방어선: 화면 출력 직전 키워드 관련성 재검증 및 상위 5개 보장
         return {
-            "다나와": danawa_res,
-            "네이버": naver_res,
-            "쿠팡": coupang_res,
-            "알리익스프레스": ali_res
+            "다나와": [it for it in danawa_res if is_relevant_product(it.get("title", ""), keyword)][:5],
+            "네이버": [it for it in naver_res if is_relevant_product(it.get("title", ""), keyword)][:5],
+            "쿠팡": [it for it in coupang_res if is_relevant_product(it.get("title", ""), keyword)][:5],
+            "알리익스프레스": [it for it in ali_res if is_relevant_product(it.get("title", ""), keyword)][:5]
         }
 
 def _run_crawler_sync(keyword):
@@ -951,8 +1071,8 @@ with st.sidebar:
 
     st.markdown(
         f"### 🛒 내 장바구니 "
-        f"<span style='background:#1F2937;color:#fff;font-size:0.75rem;"
-        f"padding:1px 8px;border-radius:10px;'>{cart_count}</span>",
+        f"<span style='background:#3182F6;color:#fff;font-size:0.75rem;"
+        f"padding:2px 8px;border-radius:12px;font-weight:700;'>{cart_count}</span>",
         unsafe_allow_html=True
     )
     st.divider()
